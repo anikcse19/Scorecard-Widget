@@ -5,8 +5,10 @@ import Info from "./Info";
 
 const tabs = ["Scorecard", "Commentary", "Graphs", "Info"];
 
-export default function MatchTabs() {
+export default function MatchTabs({ data }) {
   const [activeTab, setActiveTab] = useState("Scorecard");
+
+  console.log(data, "data tab");
 
   return (
     <div className="w-full bg-[#0D0D2B] text-white ">
@@ -29,7 +31,7 @@ export default function MatchTabs() {
 
       {/* Tab Content */}
       <div className="w-full h-[500px]">
-        {activeTab === "Scorecard" && <Scorecard />}
+        {activeTab === "Scorecard" && <Scorecard data={data} />}
         {activeTab === "Commentary" && (
           <div className="p-4 text-gray-300">
             Live commentary will appear here.

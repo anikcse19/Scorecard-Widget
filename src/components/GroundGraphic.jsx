@@ -1,13 +1,13 @@
 import { Clock, MapPin } from "lucide-react";
 
 export default function GroundGraphic({
-  status = "MATCH ENDED",
-  resultText = "LUCKNOW SUPER GIANTS WON BY 12 RUNS",
-  competition = "Premier League",
-  date = "Friday, 4 April",
-  finalScore = { teamA: "203/8", teamB: "191/5" },
-  teams = { teamA: "LSG", teamB: "MI" },
-  venue = "N/A",
+  status,
+  resultText,
+  competition,
+  date,
+  teams,
+  scores,
+  venue,
 }) {
   return (
     <div className="font-sans h-[500px] relative">
@@ -36,16 +36,18 @@ export default function GroundGraphic({
           <div className="text-xs uppercase font-bold mb-1">Final Score</div>
           <div className="flex items-center justify-center space-x-4">
             <div className="bg-white text-black px-2 py-1 rounded text-sm font-semibold">
-              {finalScore.teamA}
+              {`${scores[0]?.tI?.r}/${scores[0]?.tI?.w}`}
             </div>
             <span className="text-lg font-bold">:</span>
             <div className="bg-white text-black px-2 py-1 rounded text-sm font-semibold">
-              {finalScore.teamB}
+              {scores[1]
+                ? `${scores[1]?.tI?.r}/${scores[1]?.tI?.w}`
+                : "Yet to Bat"}
             </div>
           </div>
           <div className="flex justify-between text-xs uppercase text-gray-300 mt-2">
-            <span>{teams.teamA}</span>
-            <span>{teams.teamB}</span>
+            <span>{teams.t1?.s}</span>
+            <span>{teams.t2.s}</span>
           </div>
         </div>
       </div>

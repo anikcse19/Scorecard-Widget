@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import GroundGraphic from "./GroundGraphic";
+
 const matchData = {
   result: "MATCH ENDED",
   winner: "Lucknow Super Giants won by 12 runs",
@@ -14,7 +15,7 @@ const matchData = {
     "3 - 86 (N. Dhir, 8.1 ov)",
     "4 - 152 (S. Yadav, 16.1 ov)",
     "5 - 180 (T. Varma, 18.5 ov)",
-  ] as [string, string, string, string, string],
+  ],
 };
 
 const batsmen = [
@@ -83,25 +84,53 @@ const batsmen = [
   },
 ];
 
-export default function Scorecard() {
+export default function Scorecard({ data }) {
+  const [selectedInning, setSelectedInning] = useState(data?.teams?.t1?.s);
+  console.log(data, "scorecard data");
+
+  console.log(selectedInning, "selected inning");
+
   return (
     <div className="flex flex-col md:flex-row md:items-start bg-[#0D0D2B] text-white h-full">
       {/* Left side */}
       <div className="md:w-1/2 flex-grow h-[500px]">
         <GroundGraphic
-          status={matchData.result}
-          resultText={matchData.winner}
+          status={data?.rl ? "MATCH ENDED" : "In Play"}
+          resultText={data?.rl ? data?.rl?.msg : ""}
           date={matchData.date}
-          finalScore={{
-            teamA: matchData.scores.LSG,
-            teamB: matchData.scores.MI,
-          }}
+          teams={data?.teams}
+          scores={data?.innO}
         />
       </div>
       {/* Right side - Scorecard */}
       <div className="md:w-1/2 bg-[#0D0D2B] px-4 h-[500px] overflow-y-auto custom_scrollbar">
+        <div className="flex items-center gap-x-4 my-3">
+          <button
+            onClick={(e) => setSelectedInning(data?.teams?.t1?.s)}
+            className={` ${
+              selectedInning === data?.teams?.t1?.s
+                ? "border-2 border-purple-600 px-4 py-0.5"
+                : ""
+            }`}
+          >
+            {data?.teams?.t1?.s} INNS
+          </button>
+          <button
+            onClick={(e) => setSelectedInning(data?.teams?.t2?.s)}
+            className={` ${
+              selectedInning === data?.teams?.t2?.s
+                ? "border-2 border-purple-600 px-4 py-0.5"
+                : ""
+            }`}
+          >
+            {data?.teams?.t2?.s} INNS
+          </button>
+        </div>
+
         <div className="border-b border-white/20 pb-2 mb-4">
-          <h3 className="text-xl font-bold text-[#FF2E63]">MI INNS</h3>
+          <h3 className="text-xl font-bold text-[#FF2E63]">
+            {selectedInning} INNS
+          </h3>
         </div>
 
         {/* Scorecard Table */}

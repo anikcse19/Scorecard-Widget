@@ -2,23 +2,6 @@ import React from "react";
 import { ArrowRight } from "lucide-react";
 import GroundGraphic from "./GroundGraphic";
 
-interface HeadToHeadProps {
-  headToHead: {
-    teamA: number;
-    teamB: number;
-  };
-  form: {
-    teamA: {
-      percentage: number;
-      recent: string[];
-    };
-    teamB: {
-      percentage: number;
-      recent: string[];
-    };
-  };
-}
-
 const matchData = {
   result: "MATCH ENDED",
   winner: "Lucknow Super Giants won by 12 runs",
@@ -28,7 +11,7 @@ const matchData = {
     MI: "191/5",
   },
 };
-export function HeadToHead({ headToHead, form }: HeadToHeadProps) {
+export function HeadToHead({ headToHead, form }) {
   return (
     <div className="flex flex-col md:flex-row bg-[#0D0D2B] text-white">
       {/* Left side */}
