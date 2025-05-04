@@ -4,13 +4,18 @@ import OverProgression from "./components/OverProgession";
 import Tabs from "./components/Tabs";
 import baseUrl from "./config";
 import { useParams } from "react-router-dom";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import useStore from "./zustand/useStore";
 
 function App() {
   const [matchData, setMatchData] = useState([]);
   const [currentInning, setCurrentInning] = useState("");
   const [activeInnings, setActiveInnings] = useState("");
+  const [isLowerPartOpen, setIsLowerPartOpen] = useState(true);
 
   const { id } = useParams();
+
+  const { refreshScorecard } = useStore();
 
   const fetchMatchData = async () => {
     try {
@@ -66,12 +71,12 @@ function App() {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchMatchData();
-      findCurrentInnings();
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    // const interval = setInterval(() => {
+    fetchMatchData();
+    findCurrentInnings();
+    // }, 1000);
+    // return () => clearInterval(interval);
+  }, [refreshScorecard]);
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white font-sans">
@@ -89,7 +94,30 @@ function App() {
             setActiveInnings={setActiveInnings}
             currentInning={currentInning}
           />
-          {/* <Tabs data={matchData} /> */}
+          <div
+            className={`${
+              isLowerPartOpen ? "h-[600px]" : "h-[20px]"
+            } transition-all duration-300 overflow-hidden`}
+          >
+            <div className="flex justify-center">
+              {isLowerPartOpen ? (
+                <FaAngleUp
+                  onClick={() => setIsLowerPartOpen(false)}
+                  className="text-xl cursor-pointer"
+                />
+              ) : (
+                <FaAngleDown
+                  onClick={() => setIsLowerPartOpen(true)}
+                  className="text-xl cursor-pointer"
+                />
+              )}
+            </div>{" "}
+            <Tabs
+              activeInnings={activeInnings}
+              setActiveInnings={setActiveInnings}
+              data={matchData}
+            />
+          </div>
         </>
       )}
     </div>

@@ -9,17 +9,15 @@ export default function OverProgression({
   currentInning,
 }) {
   const [teams, setTeams] = useState([]);
-  console.log(currentInning, "currentInning");
+  // console.log(currentInning, "currentInning");
 
-  console.log(activeInnings, "active");
-  console.log(id, "id");
+  // console.log(activeInnings, "active");
+  // console.log(id, "id");
 
   // console.log(matchData, "data");
 
   const findTeams = async () => {
     try {
-      console.log("hiii");
-
       if (id) {
         const response = await fetch(
           `${baseUrl}/api/get-match-bally-ball?matchId=${id}`,
@@ -33,7 +31,6 @@ export default function OverProgression({
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log(data?.res?.score?.teams, "teams data");
         setTeams(data?.res?.score?.teams);
       }
     } catch (error) {
@@ -44,8 +41,6 @@ export default function OverProgression({
   useEffect(() => {
     findTeams();
   }, [id]);
-
-  console.log(teams, "teams");
 
   // teams names
   const team1 = teams
@@ -65,14 +60,19 @@ export default function OverProgression({
 
   const inningsData = {
     [team1]:
-      data?.innO[0]?.fow?.map((item) => Math.floor(parseInt(item.ov))) || [],
+      data?.innO[0]?.tI?.s === team1
+        ? data?.innO[0]?.fow?.map((item) => Math.floor(parseInt(item.ov)))
+        : data?.innO[1]?.fow?.map((item) => Math.floor(parseInt(item.ov))),
+
     ...(data?.innO[1] && {
       [team2]:
-        data?.innO[1]?.fow?.map((item) => Math.floor(parseInt(item.ov))) || [],
+        data?.innO[1]?.tI?.s === team2
+          ? data?.innO[1]?.fow?.map((item) => Math.floor(parseInt(item.ov)))
+          : data?.innO[0]?.fow?.map((item) => Math.floor(parseInt(item.ov))),
     }),
   };
 
-  console.log(inningsData, "inningsData");
+  // console.log(inningsData, "inningsData");
 
   const overs = Array.from({ length: 21 }, (_, i) => i); // 0 to 20
 

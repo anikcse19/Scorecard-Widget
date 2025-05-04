@@ -10,9 +10,9 @@ export default function GroundGraphic({
   venue,
 }) {
   return (
-    <div className="font-sans h-[500px] relative">
+    <div className="font-sans h-full relative overflow-hidden">
       {/* Header */}
-      <div className="flex items-center bg-green-900 text-white px-4 py-3 h-[50px]">
+      <div className="flex items-center bg-green-900 text-white px-4 py-3 h-[10%]">
         <Clock className="w-10 h-10 mr-2" />
         <div className="flex flex-col">
           <h4 className="text-sm font-bold uppercase mr-2">{status}</h4>
@@ -21,7 +21,7 @@ export default function GroundGraphic({
       </div>
 
       {/* Cricket Ground & Score */}
-      <div className="relative bg-green-600 h-[400px]">
+      <div className="relative bg-green-600 h-[90%]">
         {/* Circular boundary lines */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="absolute rounded-full border border-white opacity-30 w-56 h-56"></div>

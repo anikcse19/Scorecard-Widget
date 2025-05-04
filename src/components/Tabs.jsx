@@ -5,15 +5,13 @@ import Info from "./Info";
 
 const tabs = ["Scorecard", "Commentary", "Graphs", "Info"];
 
-export default function MatchTabs({ data }) {
+export default function MatchTabs({ data, activeInnings, setActiveInnings }) {
   const [activeTab, setActiveTab] = useState("Scorecard");
 
-  console.log(data, "data tab");
-
   return (
-    <div className="w-full bg-[#0D0D2B] text-white ">
+    <div className="w-full h-full bg-[#0D0D2B] text-white overflow-hidden">
       {/* Tab Navigation */}
-      <div className="border-b border-white/10 flex justify-between overflow-x-auto w-full ">
+      <div className="border-b border-white/10 flex justify-between overflow-x-auto w-full h-fit">
         {tabs.map((tab) => (
           <button
             key={tab}
@@ -22,7 +20,11 @@ export default function MatchTabs({ data }) {
                 ? "border-b-2 border-[#FF2E63] text-[#FF2E63]"
                 : "text-gray-400 hover:text-white"
             }`}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => {
+              if (activeTab !== "Scorecard" && tab === "Scorecard") {
+                setActiveInnings(tab);
+              }
+            }}
           >
             {tab}
           </button>
@@ -30,8 +32,14 @@ export default function MatchTabs({ data }) {
       </div>
 
       {/* Tab Content */}
-      <div className="w-full h-[500px]">
-        {activeTab === "Scorecard" && <Scorecard data={data} />}
+      <div className="w-full h-full">
+        {activeTab === "Scorecard" && (
+          <Scorecard
+            data={data}
+            activeInnings={activeInnings}
+            setActiveInnings={setActiveInnings}
+          />
+        )}
         {activeTab === "Commentary" && (
           <div className="p-4 text-gray-300">
             Live commentary will appear here.
